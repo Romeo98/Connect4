@@ -77,9 +77,6 @@ void Connect4::Register() {
 }
 
 void Connect4::Print_board() {
-    
-    std::cout << Opponent[0].name << '\n' << Opponent[1].name << '\n';
-
     std::cout << "   Connect4\n\n";
 
     for(int x = 1; x <= 8; x++)
