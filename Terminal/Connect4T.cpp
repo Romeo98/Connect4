@@ -1,6 +1,7 @@
 // Connect4, c++ terminal version
 
 #include <iostream>
+#include <iomanip>
 
 enum { ROW = 8, COLUMN = 8 };
 
@@ -59,12 +60,11 @@ Connect4::Connect4() {
 
 void Connect4::Register() {
     std::cout << "Type name of player 1: ";
-    std::cin.getline(Opponent[0].name, 20);
+    std::cin >> std::setw(2) >> Opponent[0].name;
 
-    std::cout << Opponent[0].name;
 
     std::cout << "Type name of player 2: ";
-    std::cin.get(Opponent[1].name, 20);
+    std::cin >> std::setw(20) >> Opponent[1].name;
 
     Opponent[0].color = 'r';
     Opponent[1].color = 'b';
