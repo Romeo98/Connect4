@@ -28,8 +28,8 @@ public:
 int main() {
     Connect4 game;
     
-    int opcion, turno = 0;
-	bool winrar = true;
+    int option, turn = 0;
+	bool win = true;
 
 	game.Register();
 
@@ -38,16 +38,16 @@ int main() {
 
 		game.Print_board();
 
-		std::cin >> opcion;
+		std::cin >> option;
 
-		game.Place_piece(opcion - 1, turno);
-		winrar = game.Detect(turno);
-		(turno == 0) ? turno = 1 : turno = 0;
+		game.Place_piece(option - 1, turn);
+		win = game.Detect(turn);
+		(turn == 0) ? turn = 1 : turn = 0;
 
 		std::cin.clear();
 		std::cin.ignore();
 
-	} while(winrar);
+	} while(win);
 
 	game.Print_board();
 }
