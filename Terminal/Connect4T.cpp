@@ -1,11 +1,10 @@
-/* Connect4 game
- * Author: Romeo Barraza
- */
+// Connect4, c++ terminal version
 
 #include <iostream>
 #include <fstream>
-#define ROW 8
-#define COLUMN 8
+
+const int ROW = 8;
+const int COLUMN = 8;
 
 struct Players {
 	std::string name;
