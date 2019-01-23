@@ -2,11 +2,12 @@
 
 #include <iostream>
 #include <iomanip>
+#include <limits>
 
-enum { ROW = 8, COLUMN = 8 };
+enum { ROW = 8, COLUMN = 8, MAX = 20 };
 
 struct Players {
-    char name[20];
+    char name[MAX];
     char color;
 };
 
@@ -60,17 +61,25 @@ Connect4::Connect4() {
 
 void Connect4::Register() {
     std::cout << "Type name of player 1: ";
-    std::cin >> std::setw(2) >> Opponent[0].name;
-
+    std::cin >> std::setw(MAX) >> Opponent[0].name;
+    
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     std::cout << "Type name of player 2: ";
-    std::cin >> std::setw(20) >> Opponent[1].name;
+    std::cin >> std::setw(MAX) >> Opponent[1].name;
+
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     Opponent[0].color = 'r';
     Opponent[1].color = 'b';
 }
 
 void Connect4::Print_board() {
+    
+    std::cout << Opponent[0].name << '\n' << Opponent[1].name << '\n';
+
     std::cout << "   Connect4\n\n";
 
     for(int x = 1; x <= 8; x++)
