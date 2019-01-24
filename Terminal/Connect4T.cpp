@@ -22,6 +22,7 @@ public:
     void Print_board();
     void Place_piece(int, int);
     bool Detect(int);
+    void Print_winner(int);
 };
 
 
@@ -42,14 +43,21 @@ int main() {
 
 		game.Place_piece(option - 1, turn);
 		win = game.Detect(turn);
+
+        if(!win) {
+            system("clear");
+	        game.Print_board();
+            game.Print_winner(turn);
+            break;
+        }
+
 		(turn == 0) ? turn = 1 : turn = 0;
 
 		std::cin.clear();
 		std::cin.ignore();
 
-	} while(win);
+	} while(true);
 
-	game.Print_board();
 }
 
 
@@ -191,4 +199,8 @@ bool Connect4::Detect(int turn) {
 		}
 
     return true;
+}
+
+void Connect4::Print_winner(int player) {
+    std::cout << Opponent[player].name << " wins\n";
 }
