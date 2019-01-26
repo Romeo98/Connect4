@@ -39,6 +39,7 @@ int main() {
         if(!Detect(turn)) {
             system("clear");
             Print_board();
+            printf("%s wins\n", Opponent[turn].name);
             break;
         }
 
