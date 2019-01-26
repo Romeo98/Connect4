@@ -22,14 +22,16 @@ void Place_piece(int, int);
 _Bool Detect(int);
 
 int main() {
+
     Create_board();
+    Register();
 
     int option, turn = 0;
 
-    Register();
-
     do {
         system("clear");
+
+        printf("%s\n%s", Opponent[0].name, Opponent[1].name);
 
         Print_board();
         scanf("\n%d", &option);
@@ -58,10 +60,16 @@ void Create_board() {
 
 void Register() {
     printf("Type name of player 1: ");
-    scanf("%s", &Opponent[0].name);
+    scanf("%19s", &Opponent[0].name);
+
+    fflush(stdin);
+    while((getchar()) != '\n');
 
     printf("Type name of player 2: ");
-    scanf("%s", &Opponent[1].name);
+    scanf("%19s", &Opponent[1].name);
+    
+    fflush(stdin);
+    while((getchar()) != '\n');
 
     Opponent[0].color = 'r';
     Opponent[1].color = 'b';
