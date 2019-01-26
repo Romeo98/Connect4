@@ -31,8 +31,6 @@ int main() {
     do {
         system("clear");
 
-        printf("%s\n%s", Opponent[0].name, Opponent[1].name);
-
         Print_board();
         scanf("\n%d", &option);
 
