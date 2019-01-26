@@ -1,110 +1,99 @@
-// Connect4, c++ terminal version
+// Connect4, c terminal version
 
-#include <iostream>
-#include <iomanip>
-#include <limits>
-
-enum { ROW = 8, COLUMN = 8, MAX = 20 };
+#include <stdio.h>
+#define false 0
+#define true 1
+#define ROW 8
+#define COLUMN 8
+#define MAX 20
 
 struct Players {
     char name[MAX];
     char color;
 };
 
-class Connect4 {
+char board[ROW][COLUMN];
+struct Players Opponent[2];
 
-    char board[ROW][COLUMN];
-    Players Opponent[2];
-
-public:
-    Connect4();
-    void Register();
-    void Print_board();
-    void Place_piece(int, int);
-    bool Detect(int);
-    void Print_winner(int);
-};
-
+void Create_board();
+void Register();
+void Print_board();
+void Place_piece(int, int);
+_Bool Detect(int);
 
 int main() {
-    Connect4 game;
-    
+
+    Create_board();
+    Register();
+
     int option, turn = 0;
-	bool win = true;
 
-	game.Register();
+    do {
+        system("clear");
 
-	do {
-		system("clear");
+        Print_board();
+        scanf("\n%d", &option);
 
-		game.Print_board();
+        Place_piece(option -1, turn);
 
-		std::cin >> option;
-
-		game.Place_piece(option - 1, turn);
-		win = game.Detect(turn);
-
-        if(!win) {
+        if(!Detect(turn)) {
             system("clear");
-	        game.Print_board();
-            game.Print_winner(turn);
+            Print_board();
             break;
         }
 
-		(turn == 0) ? turn = 1 : turn = 0;
+        (turn == 0) ? (turn = 1) : (turn = 0);
+        
+        fflush(stdin);
 
-		std::cin.clear();
-		std::cin.ignore();
-
-	} while(true);
-
+    } while(true);
 }
 
 
-Connect4::Connect4() {
+void Create_board() {
     for(int x = 0; x < ROW; x++)
         for(int y = 0; y < COLUMN; y++)
             board[x][y] = '0';
 }
 
-void Connect4::Register() {
-    std::cout << "Type name of player 1: ";
-    std::cin >> std::setw(MAX) >> Opponent[0].name;
+void Register() {
+    printf("Type name of player 1: ");
+    scanf("%19s", &Opponent[0].name);
+
+    fflush(stdin);
+    while((getchar()) != '\n');
+
+    printf("Type name of player 2: ");
+    scanf("%19s", &Opponent[1].name);
     
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-    std::cout << "Type name of player 2: ";
-    std::cin >> std::setw(MAX) >> Opponent[1].name;
-
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    fflush(stdin);
+    while((getchar()) != '\n');
 
     Opponent[0].color = 'r';
     Opponent[1].color = 'b';
 }
 
-void Connect4::Print_board() {
-    std::cout << "   Connect4\n\n";
+void Print_board() {
+    printf("   Connect4\n\n");
 
     for(int x = 1; x <= 8; x++)
-        std::cout << x << ' ';
+        printf("%d ", x);
 
-    std::cout << "\n\n";
+    printf("\n\n");
 
     for(int x = 0; x < ROW; x++) {
         for(int y = 0; y < COLUMN; y++)
-            std::cout << board[x][y] << ' ';
-
-        std::cout << '\n';
+            printf("%c ", board[x][y]);
+        
+        printf("\n");
     }
 }
 
-void Connect4::Place_piece(int Yselect, int player) {
+void Place_piece(int Yselect, int player) {
     while(board[0][Yselect] != '0') {
-        std::cout << "Column: " << Yselect + 1 << " is filled, select another one\n";
-        std::cout << "Your new option is: ";
-        std::cin >> Yselect;
+        printf("Column: %d is filled, select another one\n", Yselect);
+        printf("Your new option is: ");
+        scanf("%d", Yselect);
         Yselect--;
     }
 
@@ -112,14 +101,15 @@ void Connect4::Place_piece(int Yselect, int player) {
 
     while(Xselect < ROW - 1) {
         if(board[Xselect + 1][Yselect] != '0')
-                break;
+            break;
         Xselect++;
     }
-
+    
     board[Xselect][Yselect] = Opponent[player].color;
 }
 
-bool Connect4::Detect(int turn) {
+
+_Bool Detect(int turn) {
     for(int x = 0; x < ROW; x++)
 		for(int y = 0, c = 1; y < COLUMN - 1; y++) {
 			if(board[x][y] == Opponent[turn].color)
@@ -199,8 +189,4 @@ bool Connect4::Detect(int turn) {
 		}
 
     return true;
-}
-
-void Connect4::Print_winner(int player) {
-    std::cout << Opponent[player].name << " wins\n";
 }
