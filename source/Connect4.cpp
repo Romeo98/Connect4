@@ -1,65 +1,22 @@
-// Connect4, c++ terminal version
+#ifndef IOSTREAM
+#define IOSTREAM
 
 #include <iostream>
+#endif
+
+#ifndef IOMANIP
+#define IOMANIP
+
 #include <iomanip>
+#endif
+
+#ifndef LIMITS
+#define LIMITS
+
 #include <limits>
+#endif
 
-enum { ROW = 8, COLUMN = 8, MAX = 20 };
-
-struct Players {
-    char name[MAX];
-    char color;
-};
-
-class Connect4 {
-
-    char board[ROW][COLUMN];
-    Players Opponent[2];
-
-public:
-    Connect4();
-    void Register();
-    void Print_board();
-    void Place_piece(int, int);
-    bool Detect(int);
-    void Print_winner(int);
-};
-
-
-int main() {
-    Connect4 game;
-    
-    int option, turn = 0;
-	bool win = true;
-
-	game.Register();
-
-	do {
-		system("clear");
-
-		game.Print_board();
-
-		std::cin >> option;
-
-		game.Place_piece(option - 1, turn);
-		win = game.Detect(turn);
-
-        if(!win) {
-            system("clear");
-	        game.Print_board();
-            game.Print_winner(turn);
-            break;
-        }
-
-		(turn == 0) ? turn = 1 : turn = 0;
-
-		std::cin.clear();
-		std::cin.ignore();
-
-	} while(true);
-
-}
-
+#include "Connect4.h"
 
 Connect4::Connect4() {
     for(int x = 0; x < ROW; x++)
