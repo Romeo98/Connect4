@@ -14,23 +14,22 @@ struct Players {
 class Connect4 {
 
     char board[ROW][COLUMN];
-    Players Opponent[2];
 
 public:
     Connect4();
     void Register();
     void Print_board();
-    void Place_piece(int, int);
-    bool Detect(int);
-    void Print_winner(int);
+    void Place_piece(int);
+    bool Detect();
+
+    Players Opponent[2];
+    bool turn;
 };
 
 
 int main() {
     Connect4 game;
-    
-    int option, turn = 0;
-	bool win = true;
+    int option;
 
 	game.Register();
 
@@ -41,23 +40,19 @@ int main() {
 
 		std::cin >> option;
 
-		game.Place_piece(option - 1, turn);
-		win = game.Detect(turn);
+		game.Place_piece(option - 1);
 
-        if(!win) {
+        if(game.Detect()) {
             system("clear");
 	        game.Print_board();
-            game.Print_winner(turn);
+            std::cout << game.Opponent[game.turn].name << " wins\n";
             break;
         }
-
-		(turn == 0) ? turn = 1 : turn = 0;
 
 		std::cin.clear();
 		std::cin.ignore();
 
 	} while(true);
-
 }
 
 
@@ -65,6 +60,10 @@ Connect4::Connect4() {
     for(int x = 0; x < ROW; x++)
         for(int y = 0; y < COLUMN; y++)
             board[x][y] = '0';
+
+    Opponent[0].color = 'r';
+    Opponent[1].color = 'b';
+    turn = true;
 }
 
 void Connect4::Register() {
@@ -79,9 +78,6 @@ void Connect4::Register() {
 
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-    Opponent[0].color = 'r';
-    Opponent[1].color = 'b';
 }
 
 void Connect4::Print_board() {
@@ -100,7 +96,7 @@ void Connect4::Print_board() {
     }
 }
 
-void Connect4::Place_piece(int Yselect, int player) {
+void Connect4::Place_piece(int Yselect) {
     while(board[0][Yselect] != '0') {
         std::cout << "Column: " << Yselect + 1 << " is filled, select another one\n";
         std::cout << "Your new option is: ";
@@ -116,10 +112,12 @@ void Connect4::Place_piece(int Yselect, int player) {
         Xselect++;
     }
 
-    board[Xselect][Yselect] = Opponent[player].color;
+    turn ? turn = false : turn = true;
+
+    board[Xselect][Yselect] = Opponent[turn].color;
 }
 
-bool Connect4::Detect(int turn) {
+bool Connect4::Detect() {
     for(int x = 0; x < ROW; x++)
 		for(int y = 0, c = 1; y < COLUMN - 1; y++) {
 			if(board[x][y] == Opponent[turn].color)
@@ -129,7 +127,7 @@ bool Connect4::Detect(int turn) {
 				c = 1;
 
 			if(c == 4)
-				return false;
+				return true;
 		}
 
 
@@ -142,7 +140,7 @@ bool Connect4::Detect(int turn) {
 				c = 1;
 
 			if(c == 4)
-				return false;
+				return true;
 		}
 
 
@@ -156,7 +154,7 @@ bool Connect4::Detect(int turn) {
 				c = 1;
 
 			if(c == 4)
-				return false;
+				return true;
 		}
 
 	for(int x = 7; x > 0; x--)
@@ -169,7 +167,7 @@ bool Connect4::Detect(int turn) {
 				c = 1;
 
 			if(c == 4)
-				return false;
+				return true;
 		}
 	
 	for(int x = 0; x < ROW; x++)
@@ -182,7 +180,7 @@ bool Connect4::Detect(int turn) {
 				c = 1;
 
 			if(c == 4)
-				return false;
+				return true;
 		}
 
 	for(int x = 7, i = 0; x > 0; x--, i++)
@@ -195,12 +193,8 @@ bool Connect4::Detect(int turn) {
 				c = 1;
 
 			if(c == 4)
-				return false;
+				return true;
 		}
 
-    return true;
-}
-
-void Connect4::Print_winner(int player) {
-    std::cout << Opponent[player].name << " wins\n";
+    return false;
 }
